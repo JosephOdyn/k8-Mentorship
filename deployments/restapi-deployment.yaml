@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi-deployment
+  labels:
+    name: restapi-deployment
+    app: Mentorship
+
+
+spec:
+  selector:
+    matchLabels:
+      name: restapi-pod
+
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: restapi-pod
+    spec:
+      containers:
+      - name: restapi
+        image: josephodyn/sre_mentorship:mongoapi-ami-image 
+        ports:
+          - containerPort: 80
+            hostPort: 8081
+        env:
+        - name: MONGODB_CONNSTRING
+          value: "mongodb://odynz:0X1A&^%adsadadas3242@mongodb"
+        resources:
+          requests:
+            cpu: 125m
+            memory: 0.5Gi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapi-svc
+  labels:
+    name: restapi-svc
+    app: Mentorship
+spec:
+  type: NodePort
+  ports:
+    - port: 8081
+      targetPort: 8081
+      nodePort: 30004
+  selector:
+    name: restapi-pod
+    app: Mentorship

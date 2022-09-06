@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restapi-pod
+  labels:
+    name: restapi-pod
+    app: Mentorship
+
+spec:
+  containers:
+    - name: restapi
+      image: josephodyn/sre_mentorship:mongoapi-ami-image 
+      ports:
+        - containerPort: 8081
+          hostPort: 8081
+      env:
+        - name: MONGODB_CONNSTRING
+          value: "mongodb://odynz:0X1A&^%adsadadas3242@mongodb"
+        
